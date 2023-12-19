@@ -1,0 +1,3 @@
+function Get-NinjaOneTitle($Title, $Icon, $TitleLink, $TitleSize, $TitleClass) {
+    Return $(if ($TitleSize) { '<' + $TitleSize }else { '<span ' }) + $(if ($TitleClass) { ' class="' + $TitleClass + '"' }) + '>' + $(if ($Icon) { '<i class="' + $Icon + '"></i>&nbsp;&nbsp;' }) + $Title + $(if ($TitleLink) { '&nbsp;&nbsp;<a href="' + $TitleLink + '" target="_blank" class="text-decoration-none"><i class="fas fa-arrow-up-right-from-square fa-2xs" style="color: #337ab7;"></i></a>' }) + $(if ($TitleSize) { "</$TitleSize>" }else { '</span>' })
+}
