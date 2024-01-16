@@ -12,7 +12,7 @@
     RootModule        = '.\NinjaOneDocs.psm1'
 
     # Version number of this module.
-    ModuleVersion     = '1.1'
+    ModuleVersion     = '1.7'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -84,7 +84,8 @@
         'Get-NinjaOneWidgetCard',
         'Get-TimeFromNinjaOne',
         'Invoke-NinjaOneDocumentTemplate',
-        'Invoke-NinjaOneRequest'
+        'Invoke-NinjaOneRequest',
+        'Get-NinjaBarGraph'
     )
 
     # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.

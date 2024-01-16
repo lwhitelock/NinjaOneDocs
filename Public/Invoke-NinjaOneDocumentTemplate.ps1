@@ -36,6 +36,7 @@ function Invoke-NinjaOneDocumentTemplate {
 
         if ($PatchTemplate -eq $True) {
             Write-Host "Updating Template"
+            $Template.Fields = $Template.Fields + ($DocumentTemplate.Fields | Where-Object {$_.fieldName -notin $Template.Fields.fieldName})
             $NinjaDocumentTemplate = Invoke-NinjaOneRequest -Path "document-templates/$($DocumentTemplate.id)" -Method PUT -InputObject ($Template | Select-Object * -ExcludeProperty allowMultiple)
         }
 
