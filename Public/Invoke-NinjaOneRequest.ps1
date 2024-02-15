@@ -24,20 +24,21 @@ function Invoke-NinjaOneRequest {
 
     try {
         if ($Method -in @('GET', 'DELETE')) {
-            if ($Paginate) {
-            
+            if ($Paginate) {           
                 $After = 0
                 $PageSize = 1000
                 $NinjaResult = do {
-                    $Result = Invoke-WebRequest -uri "https://$($Script:NinjaOneInstance)/api/v2/$($Path)?pageSize=$PageSize&after=$After$(if ($QueryParams){"&$QueryParams"})" -Method $Method -Headers @{Authorization = "Bearer $($token.access_token)" } -ContentType 'application/json' -UseBasicParsing
+                    $Result = (Invoke-WebRequest -uri "https://$($Script:NinjaOneInstance)/api/v2/$($Path)?pageSize=$PageSize&after=$After$(if ($QueryParams){"&$QueryParams"})" -Method $Method -Headers @{Authorization = "Bearer $($token.access_token)" } -ContentType 'application/json' -UseBasicParsing).content | ConvertFrom-Json
                     $Result
                     $ResultCount = ($Result.id | Measure-Object -Maximum)
                     $After = $ResultCount.maximum
-    
-                } while ($ResultCount.count -eq $PageSize)
+                } while (($Result | Measure-Object).count -eq $PageSize)
+
+                Return $NinjaResult
+
             } else {
                 $NinjaResult = Invoke-WebRequest -uri "https://$($Script:NinjaOneInstance)/api/v2/$($Path)$(if ($QueryParams){"?$QueryParams"})" -Method $Method -Headers @{Authorization = "Bearer $($token.access_token)" } -ContentType 'application/json; charset=utf-8' -UseBasicParsing
-            }
+            }       
 
         } elseif ($Method -in @('PATCH', 'PUT', 'POST')) {
             $NinjaResult = Invoke-WebRequest -uri "https://$($Script:NinjaOneInstance)/api/v2/$($Path)$(if ($QueryParams){"?$QueryParams"})" -Method $Method -Headers @{Authorization = "Bearer $($token.access_token)" } -Body $Body -ContentType 'application/json; charset=utf-8' -UseBasicParsing
